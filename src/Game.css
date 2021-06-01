@@ -4,23 +4,5 @@
     background-color: rgb(248, 173, 88);
 }
 
-.board-row:after {
-  clear: both;
-  content: "";
-  display: table;
-}
 
-.cell {
-  background: rgb(40, 216, 54);
-  border: 1px solid #999;
-  font-size: 24px;
-  font-weight: bold;
-  line-height: 34px;
-  height: 100px;
-  width: 100px;
-  margin-right: -1px;
-  margin-top: -1px;
-  padding: 0;
-  text-align: center;
-}
 
