@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import Board from './Board.js';
-import './Game.css';
+import './style/Game.css';
 
 const SIZE = 4;
 const PLAYER_NUM = 2; 

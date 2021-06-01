@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
-import './Board.css';
+import './style/Board.css';
 import Cell from './Cell.js';
-import { calculateWinner, calculateProfit, nextPlayer, prebuildBoard } from './Helpers/BoardHelper.js';
+import { calculateWinner, calculateProfit, nextPlayer, prebuildBoard } from './helpers/BoardHelper.js';
 
 class Board extends React.Component {
   constructor(props) {
