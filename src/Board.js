@@ -1,7 +1,8 @@
 import React, { Component } from 'react';
 import './style/Board.css';
 import Cell from './Cell.js';
-import { calculateWinner, calculateProfit, nextPlayer, prebuildBoard } from './helpers/BoardHelper.js';
+import Status from './Status.js';
+import { calculateWinner, calculateProfit, nextPlayer } from './helpers/BoardHelper.js';
 
 class Board extends React.Component {
   constructor(props) {
@@ -17,7 +18,8 @@ class Board extends React.Component {
       cells: Array(size * size).fill(null),
       current_player: 'A',
       gold_to_level: 25,
-      player_gold: Array(player_num).fill(25)
+      player_gold: Array(player_num).fill(25),
+      winner: null
     };
   }
 
@@ -53,10 +55,13 @@ class Board extends React.Component {
       }
     }
     
+    const newWinner = calculateWinner(squares, nxt_gold, size, player_num);
+
     this.setState({
       cells: squares, 
       current_player: nextPlayer(current_player, player_num),
-      player_gold: nxt_gold});
+      player_gold: nxt_gold,
+      winner: newWinner});
   }
 
   renderCell(i) {
@@ -69,31 +74,28 @@ class Board extends React.Component {
     );
   }
 
+  renderStatus() {
+    const {player_num} = this.props;
+    const {current_player, player_gold, winner} = this.state;
+    return (
+      <Status
+        player_num = {player_num}
+        cur_player = {current_player}
+        player_gold = {player_gold}
+        winner = {winner}
+      />
+    );
+  }
+
   render() {
     const {size, player_num} = this.props;
-    const {cells, current_player, player_gold} = this.state;
+    const {current_player, player_gold, winner} = this.state;
     
-    const winner = calculateWinner(cells, player_gold, size, player_num);
-    let nxt_player, gold_dashboard, upgrade_dashboard;
-
-    if (winner) {
-      nxt_player = 'Winner: ' + winner;
-    } else {
-      nxt_player = 'Next player: ' + nextPlayer(current_player, player_num)
-    }
-
-    gold_dashboard = 'Player A has ' + player_gold[0].toString() + ' gold'
-      + ', ' + 'Player B has ' + player_gold[1].toString() + ' gold';
-
-    upgrade_dashboard = "Need 25 golds to upgrade/build a building";
-
     let prebuild_board = prebuildBoard(size);
 
     return (
       <div>
-        <div className="nxt_player">{nxt_player}</div>
-        <div className="gold_dashboard">{gold_dashboard}</div>
-        <div className="upgrade_dashboard">{upgrade_dashboard}</div>
+        {(this.renderStatus())}
         <br></br>
         {
           prebuild_board.map(board_row => (
@@ -105,6 +107,20 @@ class Board extends React.Component {
       </div>
     );
   }
+}
+
+function prebuildBoard(size) {
+    let empty_board = [];
+    let cnt = 0;
+
+    for (let i = 0; i < size; i++) {
+      empty_board[i] = [];
+      for (let j = 0; j < size; j++) {
+        empty_board[i][j] = cnt++;
+      }
+    }
+
+    return empty_board;
 }
 
 export default Board;

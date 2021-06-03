@@ -42,17 +42,3 @@ export function nextPlayer(cur_player, player_num) {
     return String.fromCharCode(cur_player.charCodeAt(0) + 1);
   }
 }
-
-export function prebuildBoard(size) {
-    let empty_board = [];
-    let cnt = 0;
-
-    for (let i = 0; i < size; i++) {
-      empty_board[i] = [];
-      for (let j = 0; j < size; j++) {
-        empty_board[i][j] = cnt++;
-      }
-    }
-
-    return empty_board;
-}
